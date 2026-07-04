@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 import { notFound } from "next/navigation"
 import { NewsCard } from "@/components/public/NewsCard"
 import { HeroSection } from "@/components/public/HeroSection"
