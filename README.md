@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# La Colonia Digital
 
-## Getting Started
+Periódico digital con panel de administración. Construido con **Next.js 16**, **Neon Postgres**, **Vercel Blob** y **TipTap**.
 
-First, run the development server:
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Framework | Next.js 16 (App Router, Server Actions) |
+| Base de datos | Neon Postgres + Drizzle ORM |
+| Storage de imágenes | Vercel Blob |
+| Autenticación | JWT con jose (sesión en cookie HttpOnly) |
+| Editor | TipTap |
+| Reordenamiento | @dnd-kit |
+| Estilos | Tailwind CSS v4 + shadcn/ui |
+
+## Setup local
+
+### 1. Clonar e instalar
+
+```bash
+git clone https://github.com/RafaelBrake1/la-colonia-digital.git
+cd la-colonia-digital
+npm install
+```
+
+### 2. Configurar variables de entorno
+
+```bash
+cp .env.example .env.local
+# Edita .env.local con tus valores
+```
+
+### 3. Crear la base de datos en Neon
+
+En Vercel → Storage → Create → Neon, o en neon.tech directamente.
+Copia el connection string en DATABASE_URL de .env.local.
+Pega el contenido de `drizzle/schema.sql` en la consola SQL de Neon.
+
+### 4. Crear el usuario admin
+
+```bash
+DATABASE_URL="postgresql://..." node scripts/create-admin.mjs
+```
+
+### 5. Generar SESSION_SECRET
+
+```bash
+openssl rand -base64 32
+# Pega el resultado en SESSION_SECRET de .env.local
+```
+
+### 6. Ejecutar en desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Sitio público: http://localhost:3000
+- Panel admin: http://localhost:3000/admin/login
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy en Vercel
 
-## Learn More
+1. **Importar repo** en vercel.com → New Project → la-colonia-digital
+2. **Neon Postgres**: Storage → Create → Neon → ejecuta `drizzle/schema.sql`
+3. **Vercel Blob**: Storage → Create → Blob (variables se agregan automáticamente)
+4. **Variables de entorno** en Settings → Environment Variables:
+   - `SESSION_SECRET` (genera con `openssl rand -base64 32`)
+   - `NEXT_PUBLIC_APP_URL` (tu dominio, ej: https://la-colonia-digital.vercel.app)
+5. **Usuario admin en producción**: `DATABASE_URL="prod-url" node scripts/create-admin.mjs`
+6. Re-deploy automático en cada push a `main`
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Funcionalidades del panel admin
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Crear / Editar**: Editor TipTap (H2, H3, negrita, cursiva, listas, citas, enlaces)
+- **Imágenes**: Sube a Vercel Blob o pega URL. Posición (arriba, centro, abajo, izquierda, derecha, ancho-completo) y tamaño configurables
+- **Estados**: Publicado / Borrador / Archivado
+- **Destacado**: Una noticia aparece en el hero principal del inicio
+- **Reordenar**: Drag-and-drop en publicadas para cambiar el orden del sitio
+- **Archivar / Restaurar**: Archivadas no aparecen en el sitio, restaurables como borrador
+- **Eliminar**: Con confirmación
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Co-Authored-By: Oz <oz-agent@warp.dev>
