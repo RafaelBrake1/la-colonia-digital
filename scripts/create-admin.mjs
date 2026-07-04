@@ -14,9 +14,12 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const ask = (q) => new Promise((res) => rl.question(q, res))
 
 async function main() {
-  const dbUrl = process.env.DATABASE_URL
+  const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING
   if (!dbUrl) {
-    console.error("❌  DATABASE_URL no está definida en el entorno.")
+    console.error("❌  No se encontró ninguna variable de base de datos.")
+    console.error("    Define una de estas antes del comando:")
+    console.error("    DATABASE_URL=\"postgresql://...\" node scripts/create-admin.mjs")
+    console.error("    POSTGRES_URL=\"postgresql://...\" node scripts/create-admin.mjs")
     process.exit(1)
   }
 
