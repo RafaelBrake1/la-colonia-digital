@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useState, useTransition, useRef, useCallback } from "react"
 import { TipTapEditor } from "@/components/editor/TipTapEditor"
 import { ImageManager } from "./ImageManager"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -14,6 +14,7 @@ import { NEWS_CATEGORIES } from "@/lib/constants"
 import type { ArticleInput, ImageInput } from "@/actions/articles"
 import type { Article } from "@/lib/db/schema"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 interface ArticleFormProps {
@@ -42,6 +43,12 @@ function slugify(text: string): string {
 export function ArticleForm({ article, onSubmit, submitLabel }: ArticleFormProps) {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
+  // Rastrear URLs subidas a Vercel Blob en esta sesión
+  const blobUrlsRef = useRef<string[]>([])
+  const trackBlobUrl = useCallback((url: string) => {
+    blobUrlsRef.current.push(url)
+  }, [])
 
   const [title, setTitle] = useState(article?.title ?? "")
   const [slug, setSlug] = useState(article?.slug ?? "")
@@ -168,7 +175,7 @@ export function ArticleForm({ article, onSubmit, submitLabel }: ArticleFormProps
             Sube imágenes o pega URLs. Configura la posición y tamaño de cada una dentro del artículo.
           </p>
         </div>
-        <ImageManager images={images} onChange={setImages} />
+        <ImageManager images={images} onChange={setImages} onBlobUploaded={trackBlobUrl} />
       </div>
 
       {/* Metadatos */}
@@ -249,9 +256,28 @@ export function ArticleForm({ article, onSubmit, submitLabel }: ArticleFormProps
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-3">
-        <Link href="/admin/noticias" className={cn(buttonVariants({ variant: "outline" }))}>
+        <button
+          type="button"
+          className={cn(buttonVariants({ variant: "outline" }))}
+          onClick={async () => {
+            // Eliminar blobs subidos pero no guardados
+            const urls = blobUrlsRef.current
+            if (urls.length > 0) {
+              try {
+                await fetch("/api/upload", {
+                  method: "DELETE",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ urls }),
+                })
+              } catch {
+                // Ignorar errores de limpieza
+              }
+            }
+            router.push("/admin/noticias")
+          }}
+        >
           Cancelar
-        </Link>
+        </button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Guardando…" : submitLabel}
         </Button>

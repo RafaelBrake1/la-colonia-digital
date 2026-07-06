@@ -1,4 +1,4 @@
-import { put } from "@vercel/blob"
+import { put, del } from "@vercel/blob"
 import { NextResponse } from "next/server"
 import { getSession } from "@/lib/session"
 
@@ -32,4 +32,20 @@ export async function POST(request: Request): Promise<NextResponse> {
   })
 
   return NextResponse.json({ url: blob.url })
+}
+
+export async function DELETE(request: Request): Promise<NextResponse> {
+  const session = await getSession()
+  if (!session?.userId) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  }
+
+  const body = (await request.json()) as { urls: string[] }
+  const urls = body?.urls
+  if (!Array.isArray(urls) || urls.length === 0) {
+    return NextResponse.json({ error: "URLs requeridas" }, { status: 400 })
+  }
+
+  await Promise.allSettled(urls.map((url) => del(url)))
+  return NextResponse.json({ ok: true })
 }

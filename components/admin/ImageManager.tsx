@@ -14,9 +14,10 @@ import { toast } from "sonner"
 interface ImageManagerProps {
   images: ImageInput[]
   onChange: (images: ImageInput[]) => void
+  onBlobUploaded?: (url: string) => void
 }
 
-export function ImageManager({ images, onChange }: ImageManagerProps) {
+export function ImageManager({ images, onChange, onBlobUploaded }: ImageManagerProps) {
   const [urlInput, setUrlInput] = useState("")
   const [isUploading, setIsUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -68,6 +69,7 @@ export function ImageManager({ images, onChange }: ImageManagerProps) {
       const data = (await res.json()) as { url?: string; error?: string }
       if (!res.ok || !data.url) throw new Error(data.error ?? "Error al subir la imagen")
       add({ url: data.url, alt: file.name.replace(/\.[^.]+$/, "") })
+      onBlobUploaded?.(data.url)
       toast.success("Imagen subida correctamente")
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Error al subir")
