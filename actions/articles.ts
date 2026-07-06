@@ -21,7 +21,7 @@ export interface ArticleInput {
   excerpt: string
   content: string
   slug: string
-  category: string
+  categories: string[]
   author: string
   status: ArticleStatus
   isFeatured: boolean
@@ -107,7 +107,7 @@ export async function createArticle(input: ArticleInput) {
       excerpt: input.excerpt.trim(),
       content: input.content,
       slug,
-      category: input.category,
+      categories: input.categories,
       author: input.author.trim(),
       status: input.status,
       isFeatured: input.status === "published" ? input.isFeatured : false,
@@ -140,7 +140,7 @@ export async function updateArticle(id: string, input: ArticleInput) {
       excerpt: input.excerpt.trim(),
       content: input.content,
       slug,
-      category: input.category,
+      categories: input.categories,
       author: input.author.trim(),
       status: input.status,
       isFeatured: input.status === "published" ? input.isFeatured : false,
@@ -251,7 +251,10 @@ export async function getArticleById(id: string) {
 
 export async function getArticlesByCategory(category: string, limit = 20) {
   return db.query.articles.findMany({
-    where: and(eq(articles.status, "published"), eq(articles.category, category)),
+    where: and(
+      eq(articles.status, "published"),
+      sql`${articles.categories} @> ARRAY[${category}]::text[]`
+    ),
     orderBy: [desc(articles.isFeatured), desc(articles.publishedAt)],
     limit,
     with: { images: { orderBy: [asc(articleImages.displayOrder)] } },
@@ -269,7 +272,10 @@ export async function getTrendingArticles(limit = 5) {
 
 export async function getRelatedArticles(category: string, excludeId: string, limit = 3) {
   const byCategory = await db.query.articles.findMany({
-    where: and(eq(articles.status, "published"), eq(articles.category, category)),
+    where: and(
+      eq(articles.status, "published"),
+      sql`${articles.categories} @> ARRAY[${category}]::text[]`
+    ),
     orderBy: [desc(articles.publishedAt)],
     limit: limit + 5,
     with: { images: { orderBy: [asc(articleImages.displayOrder)] } },

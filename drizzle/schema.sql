@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS articles (
   excerpt TEXT NOT NULL,
   content TEXT NOT NULL,
   slug TEXT NOT NULL UNIQUE,
-  category TEXT NOT NULL,
+  categories TEXT[] NOT NULL DEFAULT '{}',
   author TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'draft'
     CHECK (status IN ('published', 'draft', 'archived')),

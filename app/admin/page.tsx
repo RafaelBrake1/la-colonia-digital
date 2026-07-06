@@ -67,7 +67,7 @@ export default async function AdminDashboardPage() {
                   <div className="min-w-0">
                     <p className="text-sm font-medium truncate">{article.title}</p>
                     <p className="text-xs text-muted-foreground">
-                      {article.author} · {article.category} ·{" "}
+                      {article.author} · {(article.categories ?? []).join(", ")} ·{" "}
                       {new Date(article.publishedAt).toLocaleDateString("es-ES", { day: "numeric", month: "short" })}
                     </p>
                   </div>

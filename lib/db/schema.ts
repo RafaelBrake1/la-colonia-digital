@@ -24,7 +24,7 @@ export const articles = pgTable("articles", {
   excerpt: text("excerpt").notNull(),
   content: text("content").notNull(),
   slug: text("slug").notNull().unique(),
-  category: text("category").notNull(),
+  categories: text("categories").array().notNull().default([]),
   author: text("author").notNull(),
   status: text("status", {
     enum: ["published", "draft", "archived"],

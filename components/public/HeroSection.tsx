@@ -44,9 +44,11 @@ export function HeroSection({ article, label = "Última noticia" }: HeroSectionP
             })}
           </time>
           <span>·</span>
-          <span className="inline-block rounded-full bg-white/20 px-2 py-0.5 text-xs">
-            {article.category}
-          </span>
+          {(article.categories ?? []).slice(0, 2).map((cat) => (
+            <span key={cat} className="inline-block rounded-full bg-white/20 px-2 py-0.5 text-xs">
+              {cat}
+            </span>
+          ))}
         </div>
       </div>
     </Link>

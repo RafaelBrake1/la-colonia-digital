@@ -39,9 +39,13 @@ export function NewsCard({ article, compact = false }: NewsCardProps) {
         </div>
       )}
       <div className="p-4">
-        <span className="inline-block rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide">
-          {article.category}
-        </span>
+        <div className="flex flex-wrap gap-1">
+          {(article.categories ?? []).slice(0, 2).map((cat) => (
+            <span key={cat} className="inline-block rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide">
+              {cat}
+            </span>
+          ))}
+        </div>
         <h3 className="mt-2 font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
           {article.title}
         </h3>

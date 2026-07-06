@@ -23,7 +23,7 @@ export default async function NewsDetailPage({ params }: Props) {
   // Incrementar vistas en background
   void incrementViews(article.id)
 
-  const related = await getRelatedArticles(article.category, article.id, 3)
+  const related = await getRelatedArticles(article.categories?.[0] ?? "", article.id, 3)
   const mainImage = article.images.find((img) => img.position === "arriba") ?? article.images[0]
 
   return (
@@ -40,9 +40,13 @@ export default async function NewsDetailPage({ params }: Props) {
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-center gap-3 mb-3">
-          <span className="rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-semibold uppercase tracking-wide">
-            {article.category}
-          </span>
+          <div className="flex flex-wrap gap-1.5">
+            {(article.categories ?? []).map((cat) => (
+              <span key={cat} className="rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-semibold uppercase tracking-wide">
+                {cat}
+              </span>
+            ))}
+          </div>
           <time dateTime={article.publishedAt.toISOString()} className="text-sm text-muted-foreground">
             {new Date(article.publishedAt).toLocaleDateString("es-ES", {
               year: "numeric",

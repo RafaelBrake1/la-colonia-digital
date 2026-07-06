@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
+// Note: Select still used for status field below
 import { NEWS_CATEGORIES } from "@/lib/constants"
 import type { ArticleInput, ImageInput } from "@/actions/articles"
 import type { Article } from "@/lib/db/schema"
@@ -54,7 +55,11 @@ export function ArticleForm({ article, onSubmit, submitLabel }: ArticleFormProps
   const [slug, setSlug] = useState(article?.slug ?? "")
   const [excerpt, setExcerpt] = useState(article?.excerpt ?? "")
   const [content, setContent] = useState(article?.content ?? "")
-  const [category, setCategory] = useState(article?.category ?? NEWS_CATEGORIES[0])
+  const [categories, setCategories] = useState<string[]>(
+    article?.categories && article.categories.length > 0
+      ? article.categories
+      : [NEWS_CATEGORIES[0]]
+  )
   const [author, setAuthor] = useState(article?.author ?? "")
   const [status, setStatus] = useState<"published" | "draft" | "archived">(
     (article?.status as "published" | "draft" | "archived") ?? "draft"
@@ -84,6 +89,10 @@ export function ArticleForm({ article, onSubmit, submitLabel }: ArticleFormProps
       setError("Título, resumen, contenido y autor son obligatorios.")
       return
     }
+    if (categories.length === 0) {
+      setError("Selecciona al menos una categoría.")
+      return
+    }
     setError(null)
     startTransition(async () => {
       try {
@@ -92,7 +101,7 @@ export function ArticleForm({ article, onSubmit, submitLabel }: ArticleFormProps
           slug: slug.trim(),
           excerpt: excerpt.trim(),
           content,
-          category,
+          categories,
           author: author.trim(),
           status,
           isFeatured: status === "published" ? isFeatured : false,
@@ -182,20 +191,29 @@ export function ArticleForm({ article, onSubmit, submitLabel }: ArticleFormProps
       <div className="rounded-xl border border-border bg-card p-5 space-y-4">
         <h3 className="font-semibold">Categoría y publicación</h3>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-1.5">
-            <Label htmlFor="category">Categoría</Label>
-          <Select value={category} onValueChange={(v) => v && setCategory(v)}>
-              <SelectTrigger id="category">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {NEWS_CATEGORIES.map((cat) => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+        <div className="space-y-2">
+          <Label>Categorías <span className="text-destructive">*</span></Label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 rounded-lg border border-border p-3 bg-background">
+            {NEWS_CATEGORIES.map((cat) => (
+              <label key={cat} className="flex items-center gap-2 cursor-pointer select-none">
+                <Checkbox
+                  checked={categories.includes(cat)}
+                  onCheckedChange={(checked) => {
+                    setCategories((prev) =>
+                      checked ? [...prev, cat] : prev.filter((c) => c !== cat)
+                    )
+                  }}
+                />
+                <span className="text-sm">{cat}</span>
+              </label>
+            ))}
           </div>
+          {categories.length === 0 && (
+            <p className="text-xs text-destructive">Selecciona al menos una categoría.</p>
+          )}
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
 
           <div className="space-y-1.5">
             <Label htmlFor="author">Autor *</Label>
