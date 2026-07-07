@@ -13,11 +13,9 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-muted/20">
       <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="text-center mb-6">
-          <div className="mx-auto w-12 h-12 rounded-xl bg-foreground text-background flex items-center justify-center font-bold text-lg mb-3">
-            LC
-          </div>
+          <img src="/logo.png" alt="La Colonial Digital" className="mx-auto h-16 w-auto object-contain mb-3" />
           <h1 className="text-xl font-bold">Acceso Admin</h1>
-          <p className="text-sm text-muted-foreground mt-1">La Colonia Digital</p>
+          <p className="text-sm text-muted-foreground mt-1">La Colonial Digital</p>
         </div>
 
         <form action={action} className="space-y-4">

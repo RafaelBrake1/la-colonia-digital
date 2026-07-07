@@ -14,12 +14,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="w-56 shrink-0 bg-foreground text-background flex flex-col border-r border-border/10">
         <div className="p-4 border-b border-white/10">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center font-bold text-xs">
-              LC
-            </div>
             <div>
-              <p className="font-bold text-sm leading-none">La Colonia</p>
-              <p className="text-xs text-white/50 leading-none mt-0.5">Admin</p>
+              <img src="/logo.png" alt="La Colonial Digital" className="h-9 w-auto object-contain brightness-0 invert" />
+              <p className="text-xs text-white/50 leading-none mt-1">Admin</p>
             </div>
           </Link>
         </div>

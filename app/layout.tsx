@@ -9,8 +9,8 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
-  title: "La Colonia Digital",
-  description: "Periódico digital — noticias locales e internacionales",
+  title: "La Colonial Digital",
+  description: "La Colonial Digital — Tu fuente de noticias",
 }
 
 export default function RootLayout({

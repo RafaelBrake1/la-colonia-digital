@@ -10,9 +10,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 py-10">
         <div className="grid gap-8 sm:grid-cols-3">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">LC</div>
-              <span className="font-bold text-base">La Colonia Digital</span>
+          <div className="mb-3">
+              <img src="/logo.png" alt="La Colonial Digital" className="h-14 w-auto object-contain" />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Tu fuente de noticias locales e internacionales, con la información que importa.
@@ -53,7 +52,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} La Colonia Digital. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} La Colonial Digital. Todos los derechos reservados.</p>
           <Link href="/admin" className="hover:text-foreground transition-colors">
             Acceso admin
           </Link>

@@ -24,7 +24,7 @@ export function HeroSection({ article, label = "Última noticia" }: HeroSectionP
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
       <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white">
-        <span className="inline-block rounded-full bg-amber-400 text-black px-3 py-0.5 text-xs font-bold uppercase tracking-wider">
+        <span className="inline-block rounded-full bg-accent text-accent-foreground px-3 py-0.5 text-xs font-bold uppercase tracking-wider">
           {article.isFeatured ? "Destacado" : label}
         </span>
         <h1 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-balance">

@@ -49,38 +49,40 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* La Colonial Digital — Paleta oficial */
+  /* #FCFDFC blanco  | #192533 navy  | #183C88 azul | #5C6A9F gris-azul | #CFB770 dorado */
+  --background: oklch(0.992 0.001 148);     /* #FCFDFC */
+  --foreground: oklch(0.19 0.038 248);      /* #192533 azul marino */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.19 0.038 248);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.19 0.038 248);
+  --primary: oklch(0.32 0.17 266);          /* #183C88 azul intenso */
+  --primary-foreground: oklch(0.992 0.001 148);
+  --secondary: oklch(0.51 0.075 270);       /* #5C6A9F azul grisáceo */
+  --secondary-foreground: oklch(0.992 0.001 148);
+  --muted: oklch(0.95 0.012 248);
+  --muted-foreground: oklch(0.51 0.075 270);
+  --accent: oklch(0.77 0.088 82);           /* #CFB770 dorado */
+  --accent-foreground: oklch(0.19 0.038 248);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --border: oklch(0.90 0.018 248);
+  --input: oklch(0.90 0.018 248);
+  --ring: oklch(0.32 0.17 266);
+  --chart-1: oklch(0.32 0.17 266);   /* azul intenso */
+  --chart-2: oklch(0.51 0.075 270);  /* azul grisáceo */
+  --chart-3: oklch(0.77 0.088 82);   /* dorado */
+  --chart-4: oklch(0.19 0.038 248);  /* navy */
+  --chart-5: oklch(0.60 0.12 266);   /* azul medio */
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.19 0.038 248);  /* #192533 navy */
+  --sidebar-foreground: oklch(0.992 0.001 148);
+  --sidebar-primary: oklch(0.77 0.088 82);  /* dorado para ítems activos */
+  --sidebar-primary-foreground: oklch(0.19 0.038 248);
+  --sidebar-accent: oklch(0.25 0.04 248);
+  --sidebar-accent-foreground: oklch(0.992 0.001 148);
+  --sidebar-border: oklch(0.28 0.04 248);
+  --sidebar-ring: oklch(0.77 0.088 82);
 }
 
 .dark {
