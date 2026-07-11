@@ -211,10 +211,20 @@ export async function reorderArticles(orderedIds: string[]) {
 }
 
 export async function incrementViews(id: string) {
+  const { cookies } = await import("next/headers")
+  const cookieStore = await cookies()
+  const key = `v_${id}`
+  if (cookieStore.has(key)) return // ya contado en las últimas 24h
   await db
     .update(articles)
     .set({ views: sql`${articles.views} + 1` })
     .where(and(eq(articles.id, id), eq(articles.status, "published")))
+  cookieStore.set(key, "1", {
+    maxAge: 60 * 60 * 24, // 24 horas
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+  })
 }
 
 // ─── Queries (server-side data fetching) ────────────────────────────────────

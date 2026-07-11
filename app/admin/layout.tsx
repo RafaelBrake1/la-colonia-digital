@@ -9,19 +9,44 @@ const navItems = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex">
-      {/* Sidebar */}
-      <aside className="w-56 shrink-0 bg-foreground text-background flex flex-col border-r border-border/10">
-        <div className="p-4 border-b border-white/10">
-          <Link href="/" className="flex items-center gap-2">
-            <div>
-              <img src="/logo.png" alt="La Colonial Digital" className="h-9 w-auto object-contain brightness-0 invert" />
-              <p className="text-xs text-white/50 leading-none mt-1">Admin</p>
-            </div>
+    <div className="min-h-screen flex flex-col md:flex-row">
+
+      {/* ── Sidebar desktop / Top bar móvil ── */}
+      <aside className="bg-foreground text-background flex-shrink-0 md:w-56 md:min-h-screen md:flex md:flex-col border-b md:border-b-0 md:border-r border-white/10">
+
+        {/* Logo + nav móvil (horizontal) */}
+        <div className="flex items-center justify-between px-4 py-3 md:p-4 md:border-b md:border-white/10">
+          <Link href="/">
+            <img src="/logo.png" alt="La Colonial Digital" className="h-8 md:h-9 w-auto object-contain brightness-0 invert" />
           </Link>
+          <p className="hidden md:block text-xs text-white/50">Admin</p>
+
+          {/* Iconos de nav — solo móvil */}
+          <nav className="flex md:hidden items-center gap-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                title={item.label}
+              >
+                <item.icon className="w-5 h-5" />
+              </Link>
+            ))}
+            <form action={logout}>
+              <button
+                type="submit"
+                className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                title="Cerrar sesión"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+            </form>
+          </nav>
         </div>
 
-        <nav className="flex-1 p-3 space-y-1">
+        {/* Nav vertical — solo desktop */}
+        <nav className="hidden md:block flex-1 p-3 space-y-1">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -34,7 +59,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <div className="p-3 border-t border-white/10">
+        {/* Logout — solo desktop */}
+        <div className="hidden md:block p-3 border-t border-white/10">
           <form action={logout}>
             <button
               type="submit"
@@ -48,9 +74,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 p-6 bg-muted/20">{children}</main>
-      </div>
+      <main className="flex-1 p-4 md:p-6 bg-muted/20 min-w-0">{children}</main>
     </div>
   )
 }

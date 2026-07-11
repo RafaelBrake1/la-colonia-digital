@@ -53,9 +53,6 @@ export function SiteFooter() {
 
         <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} La Colonial Digital. Todos los derechos reservados.</p>
-          <Link href="/admin" className="hover:text-foreground transition-colors">
-            Acceso admin
-          </Link>
         </div>
       </div>
     </footer>

@@ -8,20 +8,22 @@ const categorySlug = (cat: string) =>
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
+      {/* Barra principal */}
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div className="flex h-14 md:h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center shrink-0">
             <Image
               src="/logo.png"
               alt="La Colonial Digital"
               width={200}
               height={66}
-              className="h-12 w-auto object-contain"
+              className="h-10 md:h-12 w-auto object-contain"
               priority
             />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-0.5 overflow-x-auto">
+          {/* Categorías — desktop */}
+          <nav className="hidden md:flex items-center gap-0.5">
             {NEWS_CATEGORIES.map((cat) => (
               <Link
                 key={cat}
@@ -32,13 +34,21 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
+        </div>
+      </div>
 
-          <Link
-            href="/admin"
-            className="shrink-0 text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Admin
-          </Link>
+      {/* Barra de categorías — móvil */}
+      <div className="md:hidden border-t border-border">
+        <div className="flex overflow-x-auto px-4 py-1.5 gap-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {NEWS_CATEGORIES.map((cat) => (
+            <Link
+              key={cat}
+              href={`/categoria/${categorySlug(cat)}`}
+              className="shrink-0 px-3 py-1 text-xs font-medium text-muted-foreground rounded-full border border-border hover:text-foreground hover:border-primary transition-colors whitespace-nowrap"
+            >
+              {cat}
+            </Link>
+          ))}
         </div>
       </div>
     </header>
